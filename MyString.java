@@ -12,6 +12,12 @@ public class MyString {
         ///  System.out.println("\nTesting remove:");
         System.out.println("\nTesting randomStringOfLetters:");
         System.out.println("length 5 -> " + MyString.randomStringOfLetters(5));
+        System.out.println("committee - meet -> " + MyString.remove("committee", "meet") + " (expected: comit)");
+        System.out.println("\nTesting remove:");
+        System.out.println("committee - meet -> " + MyString.remove("committee", "meet") + " (expected: comit)");
+        System.out.println("abc - abc -> " + MyString.remove("abc", "abc") + " (expected: )");
+        System.out.println("abc - b -> " + MyString.remove("abc", "b") + " (expected: ac)");
+        System.out.println("hello - empty string -> " + MyString.remove("hello", "") + " (expected: hello)");
 
     }
 
@@ -122,7 +128,9 @@ public class MyString {
             if (str2.length() == 0) {
                 return str1;
             }
-            char charAt = str2.charAt(i);
+        }
+        for (int j = 0; j < str2.length(); j++) {
+            char charAt = str2.charAt(j);
             if (str1.indexOf(charAt) > -1) {
                 str1 = str1.substring(0, str1.indexOf(charAt)) + str1.substring(str1.indexOf(charAt) + 1);
 

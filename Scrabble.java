@@ -68,19 +68,17 @@ public class Scrabble {
 	// If the word includes the sequence "runi", adds 1000 points to the game.
 	public static int wordScore(String word) {
 		int finalScore = 0;
-		if (isWordInDictionary(word)) {
-			for (int i = 0; i < word.length(); i++) {
-				char ch = word.charAt(i);
-				int chScore = SCRABBLE_LETTER_VALUES[ch - 'a'];
-				finalScore += chScore;
-			}
-			if (finalScore == HAND_SIZE) {
-				finalScore += 50;
-			}
-			if (MyString.subsetOf("runi", word)) {
-				finalScore += 1000;
-			}
-
+		for (int i = 0; i < word.length(); i++) {
+			char chScore = word.charAt(i);
+			int letterScore = SCRABBLE_LETTER_VALUES[chScore - 'a'];
+			finalScore += letterScore;
+		}
+		finalScore *= word.length();
+		if (word.length() == HAND_SIZE) {
+			finalScore += 50;
+		}
+		if (MyString.subsetOf("runi", word)) {
+			finalScore += 1000;
 		}
 
 		return finalScore;
@@ -139,8 +137,7 @@ public class Scrabble {
 			System.out.println("Enter n to deal a new hand, or e to end the game:");
 			// Gets the user's input, which is all the characters entered by
 			// the user until the user enter the ENTER character.
-			String input = in.readString();
-			//// Replace the following break statement with code
+			String input = in.readString();//// Replace the following break statement with code
 			//// that completes the game playing loop
 			break;
 		}
