@@ -70,7 +70,8 @@ public class Scrabble {
 		int finalScore = 0;
 		if (isWordInDictionary(word)) {
 			for (int i = 0; i < word.length(); i++) {
-				int chScore = SCRABBLE_LETTER_VALUES[word.charAt(i) - 'a'];
+				char ch = word.charAt(i);
+				int chScore = SCRABBLE_LETTER_VALUES[ch - 'a'];
 				finalScore += chScore;
 			}
 			if (finalScore == HAND_SIZE) {
@@ -148,7 +149,30 @@ public class Scrabble {
 	public static void main(String[] args) {
 		//// Uncomment the test you want to run
 		////testBuildingTheDictionary();  
-		////testScrabbleScore();    
+		////testScrabbleScore();
+		///System.out.println("\nTesting wordScore():");
+
+		// Regular words
+		System.out.println("'cat' -> " + Scrabble.wordScore("cat") + " (expected: 15)"); // (c=3, a=1, t=1) * 3
+		System.out.println("'dog' -> " + Scrabble.wordScore("dog") + " (expected: 15)"); // (d=2, o=1, g=2) * 3
+
+		// Words with high-value letters
+		System.out.println("'quiz' -> " + Scrabble.wordScore("quiz") + " (expected: 88)"); // (q=10, u=1, i=1, z=10) * 4
+
+		// Word with length = HAND_SIZE (bonus 50)
+		String tenLetterWord = "friendship"; // (f=4, r=1, i=1, e=1, n=1, d=2, s=1, h=4, i=1, p=3) * 10 + 50 bonus
+		System.out.println("'" + tenLetterWord + "' -> " + Scrabble.wordScore(tenLetterWord) + " (expected: 240)");
+
+		// Word containing "runi" (bonus 1000)
+		System.out.println("'running' -> " + Scrabble.wordScore("running") + " (expected: 1056)"); // (r=1, u=1, n=1,
+																									// n=1, i=1, n=1,
+																									// g=2) * 7 + 1000
+																									// bonus
+
+		// Edge cases
+		System.out.println("'' -> " + Scrabble.wordScore("") + " (expected: 0)");
+		System.out.println("'a' -> " + Scrabble.wordScore("a") + " (expected: 1)");
+
 		////testCreateHands();  
 		////testPlayHands();
 		////playGame();
