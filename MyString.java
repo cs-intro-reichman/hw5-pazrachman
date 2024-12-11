@@ -119,7 +119,7 @@ public class MyString {
         }
         for (int i = 0; i < str1.length(); i++) {
             char charAt = str1.charAt(i);
-            if (str2.indexOf(charAt) > -1) {
+            while (str2.indexOf(charAt) != -1) {
                 str2 = str2.substring(0, str2.indexOf(charAt)) + str2.substring(str2.indexOf(charAt) + 1);
 
             }
