@@ -4,10 +4,12 @@
 public class MyString {
     public static void main(String args[]) {
         String hello = "hello";
+        String h = "hll";
         System.out.println(countChar(hello, 'h'));
         System.out.println(countChar(hello, 'l'));
         System.out.println(countChar(hello, 'z'));
         System.out.println(spacedString(hello));
+        System.out.println(remove(hello, h));
         //// Put your other tests here.
     }
 
@@ -114,17 +116,17 @@ public class MyString {
      * @return a string consisting of str1 minus all the characters of str2
      */
     public static String remove(String str1, String str2) {
+        if (str2.length() == 0) {
+            return str1;
+        }
         for (int i = 0; i < str1.length(); i++) {
-            if (str2.length() == 0) {
-                return str2;
-            }
-            char charAt = str1.charAt(i);
-            if (str2.indexOf(charAt) > -1) {
-                str2 = str2.substring(0, str2.indexOf(charAt)) + str2.substring(str2.indexOf(charAt) + 1);
+            char charAt = str2.charAt(i);
+            if (str1.indexOf(charAt) > -1) {
+                str1 = str1.substring(0, str1.indexOf(charAt)) + str1.substring(str1.indexOf(charAt) + 1);
 
             }
         }
-        return str2;
+        return str1;
     }
 
     /**
