@@ -49,13 +49,13 @@ public class MyString {
         }
         for (int i = 0; i < str1.length(); i++) {
             char ch = str1.charAt(i);
-            if (str2.indexOf(ch) != -1) {
-                return true;
+            if (str2.indexOf(ch) = -1) {
+                return false;
             }
 
         }
 
-        return false;
+        return true;
     }
 
     /**
