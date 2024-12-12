@@ -1,6 +1,10 @@
 /*
  * RUNI version of the Scrabble game.
  */
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 public class Scrabble {
 
 	// Note 1: "Class variables", like the five class-level variables declared
@@ -117,24 +121,23 @@ public class Scrabble {
 			if (input.equals(".")) {
 				break;
 			}
-			if (MyString.subsetOf(input, hand)) {
+			if (!MyString.subsetOf(input, hand)) {
 				System.out.println("Invalid word. Try again.");
-				if (isWordInDictionary(input)) {
-					hand = MyString.remove(hand, input);
-					score += wordScore(input);
-					System.out.println(input + " earned " + wordScore(input) + " points. Score: " + score + " points");
-					System.out.println("");
-				} else {
-					System.out.println("No such word in the dictionary. Try again.");
-					System.out.println("");
-				}
-			}
-			if (hand.length() == 0) {
-				System.out.println("Ran out of letters. Total score: " + score + " points");
+			} else if (!isWordInDictionary(input)) {
+				System.out.println("No such word in the dictionary. Try again.");
 			} else {
-				System.out.println("End of hand. Total score: " + score + " points");
+				int wordScore = wordScore(input);
+				score += wordScore;
+
+				hand = MyString.remove(hand, input);
+				System.out.println(input + " earned " + wordScore + " points. Score: " + score + " points\n");
 			}
 
+		}
+		if (hand.length() == 0) {
+			System.out.println("Ran out of letters. Total score: " + score + " points");
+		} else {
+			System.out.println("End of hand. Total score: " + score + " points");
 		}
 	}
 
@@ -192,11 +195,38 @@ public class Scrabble {
 		// Edge cases
 		System.out.println("'' -> " + Scrabble.wordScore("") + " (expected: 0)");
 		System.out.println("'a' -> " + Scrabble.wordScore("a") + " (expected: 1)");
+		System.out.println("\nTesting playHand():");
+		if (Scrabble.NUM_OF_WORDS == 0)
+			Scrabble.init();
 
-		////testCreateHands();  
+		// Mock input with "." to end the hand
+		String mockInputStr = ".\n";
+		ByteArrayInputStream mockInput = new ByteArrayInputStream(mockInputStr.getBytes());
+		InputStream originalIn = System.in;
+		System.setIn(mockInput);
+
+		try {
+			Scrabble.playHand("test");
+			System.out.println("playHand() method exists and accepts String parameter");
+
+			// Test required method calls
+			String hand = "cat";
+			MyString.spacedString(hand);
+			MyString.subsetOf("cat", hand);
+			MyString.remove(hand, "cat");
+			Scrabble.isWordInDictionary("cat");
+			Scrabble.wordScore("cat");
+			System.out.println("All required helper methods are implemented");
+		} catch (Exception e) {
+			System.out.println("Error in test: " + e.getMessage());
+		} finally {
+			System.setIn(originalIn);
+		}
+	}
+
+	////testCreateHands();  
 		////testPlayHands();
 		////playGame();
-	}
 
 	public static void testBuildingTheDictionary() {
 		init();
@@ -223,9 +253,5 @@ public class Scrabble {
 
 	public static void testPlayHands() {
 		init();
-
-		// playHand("ocostrza");
-		// playHand("arbffip");
-		// playHand("aretiin");
 	}
 }
