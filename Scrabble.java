@@ -88,8 +88,10 @@ public class Scrabble {
 	// into it, at random indexes, the letters 'a' and 'e'
 	// (these two vowels make it easier for the user to construct words)
 	public static String createHand() {
-		//// Replace the following statement with your code
-		return null;
+		String randomHand = MyString.randomStringOfLetters(HAND_SIZE - 2);
+		randomHand = MyString.insertRandomly('a', randomHand);
+		randomHand = MyString.insertRandomly('e', randomHand);
+		return randomHand;
 	}
 
 	// Runs a single hand in a Scrabble game. Each time the user enters a valid
@@ -112,8 +114,22 @@ public class Scrabble {
 			// non-whitespace characters. Whitespace is either space characters, or
 			// end-of-line characters.
 			String input = in.readString();
-			//// Replace the following break statement with code
-			//// that completes the hand playing loop
+			if (input.equals(".")) {
+				break;
+			}
+			if (MyString.subsetOf(input, hand)) {
+				if (isWordInDictionary(input)) {
+					hand = MyString.remove(hand, input);
+					score += wordScore(input);
+					System.out.println(input + " earned " + wordScore(input) + " points. Score: " + score + " points");
+					System.out.println("");
+				} else {
+					System.out.println("No such word in the dictionary. Try again.");
+					System.out.println("");
+				}
+			} else {
+				System.out.println("Invalid word. Try again.");
+			}
 			break;
 		}
 		if (hand.length() == 0) {
@@ -138,9 +154,17 @@ public class Scrabble {
 			// Gets the user's input, which is all the characters entered by
 			// the user until the user enter the ENTER character.
 			String input = in.readString();//// Replace the following break statement with code
-			//// that completes the game playing loop
-			break;
+			if (input.equals("e")) {
+				break;
+			} else if (input.equals('n')) {
+				String hand = createHand();
+				playHand(hand);
+			} else {
+				System.out.println("error");
+			}
+
 		}
+
 	}
 
 	public static void main(String[] args) {
@@ -195,10 +219,12 @@ public class Scrabble {
 		System.out.println(createHand());
 		System.out.println(createHand());
 		System.out.println(createHand());
+
 	}
 
 	public static void testPlayHands() {
 		init();
+
 		// playHand("ocostrza");
 		// playHand("arbffip");
 		// playHand("aretiin");
